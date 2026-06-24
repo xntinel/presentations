@@ -80,7 +80,7 @@ Note: Headers de respuesta HTTP — CDN CloudFront delante de AWS.
 
 ## Borde · A — hud (original)
 
-<div class="kv-card border-hud" style="width:520px;margin-top:1.2em">
+<div class="kv-card" style="width:520px;margin-top:1.2em">
   <div class="kv-hd"><span>Field</span><span>Value</span></div>
   <div class="kv-row"><span class="kv-key">Host</span><span class="kv-val">hackergpt.app</span></div>
   <div class="kv-row"><span class="kv-key">IP</span><span class="kv-val">18.214.55.77</span></div>
@@ -95,8 +95,10 @@ Note: Slide de ejemplo del borde "A — hud (original)".
 
 ## Borde · bracket asim
 
+Frame: fr-bracket
 
-<div class="kv-card border-hud-bracket" data-augmented-ui="tl-clip br-clip border" style="width:520px;margin-top:1.2em">
+
+<div class="kv-card" style="width:520px;margin-top:1.2em">
   <div class="kv-hd"><span>Field</span><span>Value</span></div>
   <div class="kv-row"><span class="kv-key">Host</span><span class="kv-val">hackergpt.app</span></div>
   <div class="kv-row"><span class="kv-key">IP</span><span class="kv-val">18.214.55.77</span></div>
@@ -111,8 +113,10 @@ Note: Slide de ejemplo del borde "bracket asim".
 
 ## Borde · placa diag
 
+Frame: fr-placa
 
-<div class="kv-card border-cut-diag" style="width:520px;margin-top:1.2em">
+
+<div class="kv-card" style="width:520px;margin-top:1.2em">
   <div class="kv-hd"><span>Field</span><span>Value</span></div>
   <div class="kv-row"><span class="kv-key">Host</span><span class="kv-val">hackergpt.app</span></div>
   <div class="kv-row"><span class="kv-key">IP</span><span class="kv-val">18.214.55.77</span></div>
@@ -127,8 +131,10 @@ Note: Slide de ejemplo del borde "placa diag".
 
 ## Borde · cyber (Cyberpunk 2077)
 
+Frame: fr-cyber
 
-<div class="kv-card border-cyber" style="width:520px;margin-top:1.2em">
+
+<div class="kv-card" style="width:520px;margin-top:1.2em">
   <div class="kv-hd"><span>Field</span><span>Value</span></div>
   <div class="kv-row"><span class="kv-key">Host</span><span class="kv-val">hackergpt.app</span></div>
   <div class="kv-row"><span class="kv-key">IP</span><span class="kv-val">18.214.55.77</span></div>
@@ -143,8 +149,10 @@ Note: Slide de ejemplo del borde "cyber (Cyberpunk 2077)".
 
 ## Borde · deusex (Deus Ex MD)
 
+Frame: fr-deusex
 
-<div class="kv-card border-deusex" style="width:520px;margin-top:1.2em">
+
+<div class="kv-card" style="width:520px;margin-top:1.2em">
   <div class="kv-hd"><span>Field</span><span>Value</span></div>
   <div class="kv-row"><span class="kv-key">Host</span><span class="kv-val">hackergpt.app</span></div>
   <div class="kv-row"><span class="kv-key">IP</span><span class="kv-val">18.214.55.77</span></div>
@@ -159,8 +167,10 @@ Note: Slide de ejemplo del borde "deusex (Deus Ex MD)".
 
 ## Borde · elite (Elite / Star Citizen)
 
+Frame: fr-elite
 
-<div class="kv-card border-elite" style="width:520px;margin-top:1.2em">
+
+<div class="kv-card" style="width:520px;margin-top:1.2em">
   <div class="kv-hd"><span>Field</span><span>Value</span></div>
   <div class="kv-row"><span class="kv-key">Host</span><span class="kv-val">hackergpt.app</span></div>
   <div class="kv-row"><span class="kv-key">IP</span><span class="kv-val">18.214.55.77</span></div>
@@ -175,8 +185,10 @@ Note: Slide de ejemplo del borde "elite (Elite / Star Citizen)".
 
 ## Borde · notch (handle izquierda)
 
+Frame: fr-notch
 
-<div class="kv-card border-notch" style="width:520px;margin-top:1.2em">
+
+<div class="kv-card" style="width:520px;margin-top:1.2em">
   <div class="kv-hd"><span>Field</span><span>Value</span></div>
   <div class="kv-row"><span class="kv-key">Host</span><span class="kv-val">hackergpt.app</span></div>
   <div class="kv-row"><span class="kv-key">IP</span><span class="kv-val">18.214.55.77</span></div>

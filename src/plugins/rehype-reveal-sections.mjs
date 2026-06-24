@@ -43,15 +43,41 @@ export default function rehypeRevealSections() {
 
     const sections = groups
       .filter((group) => group.length > 0)
-      .map((group) => ({
-        type: 'element',
-        tagName: 'section',
-        properties: {},
-        children: group.map(toNotesIfNeeded),
-      }));
+      .map((group) => {
+        const frame = extractFrame(group);
+        return {
+          type: 'element',
+          tagName: 'section',
+          properties: frame.className ? { className: frame.className } : {},
+          children: frame.children.map(toNotesIfNeeded),
+        };
+      });
 
     tree.children = sections;
   };
+}
+
+/**
+ * Directiva `Frame: <clases>` como parrafo de una diapositiva: aplica esas
+ * clases a la <section> para SOLO sobrescribir el clip-path del marco (no toca
+ * position/padding, asi reveal mantiene su layout). Elimina el parrafo.
+ */
+function extractFrame(group) {
+  for (let i = 0; i < group.length; i++) {
+    const node = group[i];
+    if (node.type !== 'element' || node.tagName !== 'p') continue;
+    const first = node.children && node.children[0];
+    if (!first || first.type !== 'text' || !/^Frame:/.test(first.value)) continue;
+    const raw = node.children
+      .map((c) => (c.type === 'text' ? c.value : ''))
+      .join('')
+      .replace(/^Frame:\s*/, '')
+      .trim();
+    const className = raw.split(/\s+/).filter(Boolean);
+    const children = group.slice(0, i).concat(group.slice(i + 1));
+    return { className, children };
+  }
+  return { className: null, children: group };
 }
 
 /** Convierte <p>Note: ...</p> en <aside class="notes">...</aside>. */

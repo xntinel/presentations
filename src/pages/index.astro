@@ -29,7 +29,7 @@ const categories = [...byCategory.keys()].sort((a, b) => a.localeCompare(b, 'es'
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}/favicon.svg`} type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>
@@ -45,7 +45,7 @@ const categories = [...byCategory.keys()].sort((a, b) => a.localeCompare(b, 'es'
             <ul class="grid">
               {byCategory.get(cat)!.map((deck) => (
                 <li>
-                  <a class="card" href={`/decks/${deck.id}`}>
+                  <a class="card" href={`${import.meta.env.BASE_URL}/decks/${deck.id}`}>
                     <div
                       class="thumb"
                       data-augmented-ui="tl-clip tr-step br-clip bl-clip border"
