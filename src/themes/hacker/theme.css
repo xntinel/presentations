@@ -1579,7 +1579,7 @@
 
 .reveal[data-theme='hacker'] .slides > section.fr-bracket{ --bw:1.5px; --ch:48px }
 .reveal[data-theme='hacker'] .slides > section.fr-bracket::before{ clip-path:polygon(var(--ch) 0,100% 0,100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,0 100%,0 var(--ch)); }
-.reveal[data-theme='hacker'] .slides > section.fr-bracket::after{ clip-path:polygon(var(--ch) 0,100% 0,100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,0 100%,0 var(--ch),var(--ch) 0,calc(var(--ch) + var(--bw)) var(--bw),calc(100% - var(--bw)) var(--bw),calc(100% - var(--bw)) calc(100% - var(--ch) - var(--bw)),calc(100% - var(--ch) - var(--bw)) calc(100% - var(--bw)),var(--bw) calc(100% - var(--bw)),var(--bw) calc(var(--ch) + var(--bw)),calc(var(--ch) + var(--bw)) var(--bw)); }
+.reveal[data-theme='hacker'] .slides > section.fr-bracket::after{ clip-path:polygon(var(--ch) 0,100% 0,100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,0 100%,0 var(--ch),var(--ch) 0,calc(var(--ch) + var(--bw)) var(--bw),var(--bw) calc(var(--ch) + var(--bw)),var(--bw) calc(100% - var(--bw)),calc(100% - var(--ch) - var(--bw)) calc(100% - var(--bw)),calc(100% - var(--bw)) calc(100% - var(--ch) - var(--bw)),calc(100% - var(--bw)) var(--bw),calc(var(--ch) + var(--bw)) var(--bw)); }
 
 .reveal[data-theme='hacker'] .slides > section.fr-notch{ --bw:1.5px; --ch:44px; }
 .reveal[data-theme='hacker'] .slides > section.fr-notch::before{ background:#fff; transform:translateX(-7px); clip-path:polygon(10px 0,10px 49px,24px 56px,24px 189px,10px 196px,10px 100%,7px 100%,7px 192px,21px 186px,21px 60px,7px 52px,4px 56px,0 56px,14px 63px,14px 182px,0 175px,0 164px,14px 172px,14px 164px,0 158px,0 147px,14px 154px,14px 147px,0 140px,0 130px,14px 136px,14px 130px,0 122px,0 60px,7px 52px,7px 0); }
