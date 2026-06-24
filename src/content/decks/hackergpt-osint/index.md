@@ -3,14 +3,14 @@ title: HackerGPT — OSINT recon
 description: Reconocimiento OSINT en estilo terminal.
 category: Seguridad
 pubDate: 2026-06-23
-theme: hacker
+theme: hud
 ---
 
 # HackerGPT
 
 Asistente de IA para ciberseguridad, investigadores y entusiastas de **OSINT**.
 
-Note: Portada con tema terminal/hacker.
+Note: Portada con tema terminal/HUD.
 
 ---
 

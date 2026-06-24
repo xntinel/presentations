@@ -13,7 +13,7 @@
 export const themes = {
   'steel-light': { label: 'Steel Light' },
   midnight: { label: 'Midnight' },
-  hacker: { label: 'Hacker' },
+  hud: { label: 'HUD' },
 } as const;
 
 export type ThemeName = keyof typeof themes;
