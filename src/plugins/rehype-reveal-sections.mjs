@@ -1,20 +1,20 @@
 /**
  * rehype-reveal-sections
  *
- * Convierte un deck en Markdown PLANO en las <section> que reveal.js espera:
- *   - separa las diapositivas por `---` (linea sola -> <hr> tras el render),
- *   - envuelve cada grupo en <section>,
- *   - convierte un parrafo que empieza por `Note:` en <aside class="notes">.
+ * Turns a PLAIN Markdown deck into the <section> elements reveal.js expects:
+ *   - splits slides on `---` (a lone line -> <hr> after rendering),
+ *   - wraps each group in a <section>,
+ *   - turns a paragraph starting with `Note:` into <aside class="notes">.
  *
- * Decks MDX (con <Slide> o JSX propio) se DEJAN INTACTOS: si el arbol contiene
- * nodos MDX (mdxJsx*) o ya trae <section>, el plugin no toca nada. El
- * discriminador principal es: solo transforma Markdown plano.
+ * MDX decks (with <Slide> or their own JSX) are LEFT UNTOUCHED: if the tree
+ * contains MDX nodes (mdxJsx*) or already has a <section>, the plugin does
+ * nothing. The key discriminator: it only transforms plain Markdown.
  */
 export default function rehypeRevealSections() {
   return (tree) => {
     const children = tree.children || [];
 
-    // Si es un deck MDX (componentes) o ya tiene <section>, no transformar.
+    // If this is an MDX deck (components) or already has a <section>, do not transform.
     const isAuthored = children.some(
       (node) =>
         (node.type && node.type.startsWith('mdxJsx')) ||
@@ -22,13 +22,13 @@ export default function rehypeRevealSections() {
     );
     if (isAuthored) return;
 
-    // Solo nos interesan los nodos de contenido (ignora texto en blanco).
+    // Only content nodes matter (ignore whitespace-only text).
     const content = children.filter(
       (node) => !(node.type === 'text' && node.value.trim() === ''),
     );
     if (content.length === 0) return;
 
-    // Parte en grupos por cada <hr> (procedente de `---`).
+    // Split into groups at each <hr> (produced by `---`).
     const groups = [];
     let current = [];
     for (const node of content) {
@@ -58,9 +58,9 @@ export default function rehypeRevealSections() {
 }
 
 /**
- * Directiva `Frame: <clases>` como parrafo de una diapositiva: aplica esas
- * clases a la <section> para SOLO sobrescribir el clip-path del marco (no toca
- * position/padding, asi reveal mantiene su layout). Elimina el parrafo.
+ * `Frame: <classes>` directive written as a slide paragraph: applies those
+ * classes to the <section> to override ONLY the frame clip-path (it leaves
+ * position/padding alone, so reveal keeps its layout). Removes the paragraph.
  */
 function extractFrame(group) {
   for (let i = 0; i < group.length; i++) {
@@ -80,10 +80,10 @@ function extractFrame(group) {
   return { className: null, children: group };
 }
 
-/** Convierte <p>Note: ...</p> en <aside class="notes">...</aside>. */
+/** Turns <p>Note: ...</p> into <aside class="notes">...</aside>. */
 function toNotesIfNeeded(node) {
   if (node.type !== 'element' || node.tagName !== 'p') return node;
-  const first = node.children[0];
+  const first = node.children && node.children[0];
   if (!first || first.type !== 'text' || !/^Note:/.test(first.value)) return node;
 
   const stripped = node.children.map((child, i) =>

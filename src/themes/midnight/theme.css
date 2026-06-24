@@ -1,14 +1,14 @@
-/* Tema "Midnight": oscuro, base noche azulada, tinta clara, acento celeste.
-   Solo tokens. La maquetacion vive en ../_base.css. */
+/* "Midnight" theme: dark, bluish-night base, light ink, sky-blue accent.
+   Tokens only. The layout lives in ../_base.css. */
 @layer theme {
   :root[data-theme='midnight'] {
-    --bg-a: #0b1020;   /* noche profunda */
-    --bg-b: #131a2e;   /* noche azulada */
-    --shade: #1b2440;  /* relleno (placeholder de imagen) */
-    --ink: #eef2fb;    /* texto claro */
-    --ink-dim: #9aa6c4;/* gris-azulado claro */
-    --accent: #6ea8ff; /* celeste */
-    --glow: 80, 120, 200; /* halo azul */
+    --bg-a: #0b1020;   /* deep night */
+    --bg-b: #131a2e;   /* bluish night */
+    --shade: #1b2440;  /* fill (image placeholder) */
+    --ink: #eef2fb;    /* light text */
+    --ink-dim: #9aa6c4;/* light blue-gray */
+    --accent: #6ea8ff; /* sky blue */
+    --glow: 80, 120, 200; /* blue halo */
     --radius: 44px;
     --font: 'Manrope Variable', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
     --font-head: 'Quicksand Variable', 'Manrope Variable', system-ui, sans-serif;

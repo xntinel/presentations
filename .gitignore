@@ -2,6 +2,8 @@
 dist/
 # generated types
 .astro/
+# playwright-mcp debug artifacts (console logs + auto-captured screenshots)
+.playwright-mcp/
 
 # dependencies
 node_modules/

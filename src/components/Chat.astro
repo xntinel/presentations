@@ -1,0 +1,34 @@
+---
+// Chat thread for the HUD theme: one bubble per message.
+//
+// Usage in MDX:
+//   <Chat messages={[
+//     { from: 'hgpt', name: 'HackerGPT', text: 'The IP belongs to AWS...' },
+//     { from: 'user', name: 'analyst', text: 'Any more subdomains?' },
+//   ]} />
+interface Message {
+  from: 'hgpt' | 'user';
+  name: string;
+  text: string;
+}
+interface Props {
+  messages: Message[];
+}
+
+const { messages } = Astro.props;
+// The avatar is set by role (not name): H for the bot, U for the user.
+const avatar = { hgpt: 'H', user: 'U' } as const;
+const nameClass = { hgpt: 'chat-botname', user: 'chat-username' } as const;
+---
+
+{
+  messages.map((m) => (
+    <div class="chat-msg">
+      <div class={`chat-avatar ${m.from}`}>{avatar[m.from]}</div>
+      <div class="chat-info">
+        <span class={nameClass[m.from]}>{m.name}</span>
+        <div class="chat-body">{m.text}</div>
+      </div>
+    </div>
+  ))
+}

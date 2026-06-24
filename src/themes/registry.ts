@@ -1,14 +1,14 @@
-// Registro de temas: la unica fuente de verdad de los temas disponibles.
+// Theme registry: the single source of truth for the available themes.
 //
-// Cada deck declara `theme: <nombre>` en su frontmatter. El esquema de la
-// coleccion valida ese nombre contra esta lista (z.enum), asi que un tema
-// inexistente rompe el build. Reusar el tema de otra presentacion es solo
-// referenciar el mismo nombre: el bloque CSS se comparte, no se copia.
+// Each deck declares `theme: <name>` in its frontmatter. The collection schema
+// validates that name against this list (z.enum), so an unknown theme breaks
+// the build. Reusing another presentation's theme is just referencing the same
+// name: the CSS block is shared, not copied.
 //
-// Para anadir un tema:
-//   1. crea src/themes/<nombre>/theme.css con un bloque [data-theme="<nombre>"]
-//   2. importalo en src/themes/themes.css
-//   3. anade la entrada aqui
+// To add a theme:
+//   1. create src/themes/<name>/theme.css with a [data-theme="<name>"] block
+//   2. import it in src/themes/themes.css
+//   3. add the entry here
 
 export const themes = {
   'steel-light': { label: 'Steel Light' },
@@ -18,5 +18,5 @@ export const themes = {
 
 export type ThemeName = keyof typeof themes;
 
-// Tupla no vacia para z.enum() en content.config.ts
+// Non-empty tuple for z.enum() in content.config.ts
 export const themeNames = Object.keys(themes) as [ThemeName, ...ThemeName[]];

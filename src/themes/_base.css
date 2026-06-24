@@ -1,24 +1,24 @@
 /* =========================================================================
-   Base estructural (compartida por TODOS los temas)
+   Structural base (shared by ALL themes)
    -------------------------------------------------------------------------
-   Aqui vive la maquetacion (layout) que NO cambia entre temas: la plantilla
-   de diapositiva imagen+titulo (.shot/.frame/header), tipografia, kicker,
-   cromos de reveal. Lee tokens semanticos (--ink, --accent, --font, ...) que
-   define el tema activo via .reveal[data-theme="..."] en su propio archivo.
+   This holds the layout that does NOT change between themes: the image+title
+   slide template (.shot/.frame/header), typography, kicker, reveal chrome. It
+   reads semantic tokens (--ink, --accent, --font, ...) that the active theme
+   defines via :root[data-theme="..."] in its own file.
 
-   Capas (@layer): el orden de cascada es explicito sin importar el orden de
-   importacion. `theme` gana a `base`; `deck` permite que un deck puntual
-   sobrescriba un token sin tocar el tema.
+   Layers (@layer): the cascade order is explicit regardless of import order.
+   `theme` beats `base`; `deck` lets a one-off deck override a token without
+   touching the theme.
 
-   El CSS debe ser global (importado como .css): reveal.js inyecta/clona DOM
-   en runtime que no llevaria el hash de scope de Astro.
+   The CSS must be global (imported as .css): reveal.js injects/clones DOM at
+   runtime that would not carry Astro's scope hash.
    ========================================================================= */
 
-/* Fondo del lienzo: SIN @layer a proposito. reveal.css no usa capas, y las
-   reglas sin capa ganan SIEMPRE a las de cualquier @layer. Al estar themes.css
-   importado despues de reveal.css, esta regla gana por orden de fuente y pinta
-   el gradiente del tema sobre el blanco que reveal.css pone en .reveal-viewport.
-   El .reveal-viewport es el <body>, que hereda los tokens del <html data-theme>. */
+/* Canvas background: deliberately NOT in an @layer. reveal.css uses no layers,
+   and unlayered rules ALWAYS beat any @layer rule. Since themes.css is imported
+   after reveal.css, this rule wins by source order and paints the theme gradient
+   over the white that reveal.css sets on .reveal-viewport.
+   The .reveal-viewport is the <body>, which inherits the tokens from <html data-theme>. */
 .reveal-viewport {
   background:
     radial-gradient(65% 55% at 10% 4%, rgba(var(--glow), 0.18), transparent 70%),
@@ -29,8 +29,8 @@
 @layer reveal, base, theme, deck;
 
 @layer base {
-  /* Mapea tokens semanticos del tema a las variables --r-* de reveal.js 6,
-     que reveal.css consume en runtime (no hace falta el pipeline de Sass). */
+  /* Map the theme's semantic tokens to reveal.js 6's --r-* variables, which
+     reveal.css consumes at runtime (no need for the Sass pipeline). */
   .reveal {
     --r-main-font: var(--font);
     --r-heading-font: var(--font-head);
@@ -47,7 +47,7 @@
   .reveal .slides { text-align: left; }
   .reveal .slides > section { padding: 0; height: 600px; }
 
-  /* ---------- Tipografia ---------- */
+  /* ---------- Typography ---------- */
   .reveal h1,
   .reveal h2,
   .reveal h3 {
@@ -63,7 +63,7 @@
   .reveal h1 { font-size: 2em; }
   .reveal h2 { font-size: 1.5em; }
 
-  /* "kicker": eyebrow discreto */
+  /* "kicker": subtle eyebrow */
   .reveal .kicker {
     font-size: 0.42em;
     font-weight: 700;
@@ -85,9 +85,9 @@
   .reveal p { margin: 0; }
 
   /* =======================================================================
-     Plantilla de diapositiva: imagen + titulo
+     Slide template: image + title
        <section><div class="shot"><div class="frame">
-         <img> <header> kicker + titulo </header>
+         <img> <header> kicker + title </header>
        </div></div></section>
      ======================================================================= */
   .reveal .shot {
@@ -96,7 +96,7 @@
     width: 100%;
   }
 
-  /* La firma: sin borde, aro de 1px + glow grande y suave. */
+  /* The signature: no border, a 1px ring + a large, soft glow. */
   .reveal .shot .frame {
     position: relative;
     width: 100%;
@@ -126,7 +126,7 @@
     display: block;
   }
 
-  /* Titulo en chip de vidrio esmerilado (scrim WCAG G18 sobre la imagen). */
+  /* Title on a frosted-glass chip (WCAG G18 scrim over the image). */
   .reveal .shot header {
     position: absolute;
     left: 32px;
@@ -151,10 +151,10 @@
   .reveal .shot header h2 { font-size: 1.7em; }
   .reveal .cover .shot header h1 { font-size: 2.3em; }
 
-  /* ---------- Portada ---------- */
+  /* ---------- Cover ---------- */
   .reveal .cover h1 { font-size: 2.6em; max-width: 16ch; }
 
-  /* ---------- Cromos de reveal ---------- */
+  /* ---------- reveal chrome ---------- */
   .reveal .progress { color: var(--accent); height: 3px; }
   .reveal .controls { color: var(--accent); }
   .reveal .slide-number {
@@ -165,7 +165,7 @@
     font-size: 13px;
   }
 
-  /* Imagenes sueltas (markdown ![]()) heredan la misma firma */
+  /* Standalone images (markdown ![]()) inherit the same signature */
   .reveal .slides img {
     border: 0;
     border-radius: var(--radius);
@@ -175,6 +175,6 @@
       0 18px 55px 0 rgba(var(--glow), 0.3);
   }
 
-  /* Notas del ponente: ocultas en pantalla (las muestra el plugin Notes). */
+  /* Speaker notes: hidden on screen (shown by the Notes plugin). */
   .reveal aside.notes { display: none; }
 }

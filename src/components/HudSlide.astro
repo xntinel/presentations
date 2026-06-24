@@ -1,0 +1,33 @@
+---
+// Content slide (no image) for terminal/HUD-style decks.
+// Authors the <section> reveal.js expects, plus its optional frame (clip-path)
+// and the speaker notes, the same way Slide.astro does for image decks.
+//
+// The notches (frame-notch) must be DIRECT children of <section> and the frame
+// classes (fr-*) go on the <section> itself: this wrapper renders both.
+//
+// Usage in MDX:
+//   <HudSlide frame="fr-bracket" notch="both" note={`Notes...`}>
+//     ## Title
+//     <KvCard rows={[['Host', 'hackergpt.app']]} />
+//   </HudSlide>
+interface Props {
+  // Frame class (clip-path): fr-bracket | fr-placa | fr-cyber | ...
+  frame?: string;
+  // Decorative notch: 'l' left, 'r' right, 'both' both.
+  notch?: 'l' | 'r' | 'both';
+  // Speaker notes (reveal.js Notes plugin).
+  note?: string;
+}
+
+const { frame, notch, note } = Astro.props;
+const showLeft = notch === 'l' || notch === 'both';
+const showRight = notch === 'r' || notch === 'both';
+---
+
+<section class={frame}>
+  {showLeft && <div class="frame-notch"></div>}
+  {showRight && <div class="frame-notch-r"></div>}
+  <slot />
+  {note && <aside class="notes" set:html={note} />}
+</section>

@@ -2,22 +2,22 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { themeNames } from './themes/registry';
 
-// Una presentacion = una carpeta src/content/decks/<slug>/ con index.md|mdx
-// e imagenes co-localizadas en images/. Anadir un deck = anadir una carpeta.
+// One presentation = one folder src/content/decks/<slug>/ with index.md|mdx
+// and co-located images in images/. Adding a deck = adding a folder.
 const decks = defineCollection({
   loader: glob({ base: './src/content/decks', pattern: '**/index.{md,mdx}' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       description: z.string().optional(),
-      // Categoria para agrupar en la home (no atada a la carpeta en disco).
+      // Category used to group decks on the home page (not tied to the on-disk folder).
       category: z.string().default('Sin categoria'),
       pubDate: z.coerce.date().optional(),
       draft: z.boolean().default(false),
-      // Portada optimizada para la galeria (astro:assets).
+      // Cover image optimized for the gallery (astro:assets).
       cover: image().optional(),
       coverAlt: z.string().default(''),
-      // Tema validado contra el registro: un nombre inexistente rompe el build.
+      // Theme validated against the registry: an unknown name breaks the build.
       theme: z.enum(themeNames).default('steel-light'),
     }),
 });

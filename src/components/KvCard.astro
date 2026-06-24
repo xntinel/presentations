@@ -1,0 +1,29 @@
+---
+// Key/value card for the HUD theme: header + rows.
+//
+// Usage in MDX:
+//   <KvCard rows={[['IP', '18.214.55.77'], ['City', 'Ashburn']]} />
+//   <KvCard width="520px" rows={[...]} />   // fixed width (frame demo slides)
+interface Props {
+  rows: [string, string][];
+  // Header labels (default Field/Value).
+  head?: [string, string];
+  // Optional fixed width (e.g. '520px'); applies a top margin like the deck.
+  width?: string;
+}
+
+const { rows, head = ['Field', 'Value'], width } = Astro.props;
+const style = width ? `width:${width};margin-top:1.2em` : undefined;
+---
+
+<div class="kv-card" style={style}>
+  <div class="kv-hd"><span>{head[0]}</span><span>{head[1]}</span></div>
+  {
+    rows.map(([key, val]) => (
+      <div class="kv-row">
+        <span class="kv-key">{key}</span>
+        <span class="kv-val">{val}</span>
+      </div>
+    ))
+  }
+</div>

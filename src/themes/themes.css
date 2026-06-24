@@ -1,10 +1,10 @@
-/* Punto de entrada de temas: base estructural (una vez) + cada bloque de tokens.
-   Se importa una sola vez en RevealLayout. Cada bloque de tema es diminuto
-   (~1-2 KB), asi que cargarlos todos juntos es barato y permite reusar/cambiar
-   el tema de un deck con solo el atributo data-theme.
+/* Theme entry point: structural base (once) + each token block.
+   Imported once in RevealLayout. Each theme block is tiny (~1-2 KB), so loading
+   them all together is cheap and lets a deck reuse/switch its theme with just
+   the data-theme attribute.
 
-   Al anadir un tema nuevo: crea src/themes/<nombre>/theme.css, registralo en
-   registry.ts e importalo aqui. */
+   To add a new theme: create src/themes/<name>/theme.css, register it in
+   registry.ts, and import it here. */
 @import './_base.css';
 @import './steel-light/theme.css';
 @import './midnight/theme.css';

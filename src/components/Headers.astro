@@ -1,0 +1,22 @@
+---
+// Endpoint card for the HUD theme (tab + preformatted body).
+//
+// Usage in MDX:
+//   <Headers body={`server: cloudfront
+//   x-cache: Miss from cloudfront`} />
+interface Props {
+  // Preformatted content (whitespace is preserved).
+  body: string;
+  // Label of the active tab.
+  tab?: string;
+}
+
+const { body, tab = 'Response Headers' } = Astro.props;
+---
+
+<div class="ep-card">
+  <div class="ep-tabs">
+    <span class="ep-tab ep-tab--active">{tab}</span>
+  </div>
+  <pre class="ep-body">{body}</pre>
+</div>
