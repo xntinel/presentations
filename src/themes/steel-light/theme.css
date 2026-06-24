@@ -1,0 +1,16 @@
+/* Tema "Steel Light": claro, base pizarra fria, tinta navy, acento azul acero.
+   Solo tokens. La maquetacion vive en ../_base.css. */
+@layer theme {
+  :root[data-theme='steel-light'] {
+    --bg-a: #f5f7fa;   /* pizarra muy clara */
+    --bg-b: #e2e8f1;   /* pizarra clara */
+    --shade: #dde4ee;  /* relleno (placeholder de imagen) */
+    --ink: #1b2638;    /* navy pizarra (texto) */
+    --ink-dim: #5d6b82;/* gris-azulado */
+    --accent: #2a5298; /* azul acero */
+    --glow: 90, 120, 165; /* azul acero frio para sombras/halo */
+    --radius: 44px;
+    --font: 'Manrope Variable', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+    --font-head: 'Quicksand Variable', 'Manrope Variable', system-ui, sans-serif;
+  }
+}

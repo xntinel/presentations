@@ -1,0 +1,68 @@
+---
+// Shell reutilizable de reveal.js: estilos base, fuentes, temas y el script de
+// inicializacion. Cualquier deck (MDX o MD) se renderiza dentro del <slot>.
+// El tema se aplica via data-theme; todos los bloques de tema cargan una vez
+// desde themes.css, asi que cambiar/reusar tema es solo cambiar el atributo.
+import 'reveal.js/reveal.css';
+import 'augmented-ui/augmented-ui.min.css';
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/quicksand';
+import '@fontsource-variable/jetbrains-mono';
+import '../themes/themes.css';
+
+interface Props {
+  title: string;
+  theme?: string;
+}
+
+const { title, theme = 'steel-light' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" data-theme={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <div class="reveal" data-theme={theme}>
+      <div class="slides">
+        <slot />
+      </div>
+    </div>
+
+    <script>
+      import Reveal from 'reveal.js';
+      import Notes from 'reveal.js/plugin/notes';
+      import Search from 'reveal.js/plugin/search';
+      import Zoom from 'reveal.js/plugin/zoom';
+
+      const deck = new Reveal({
+        plugins: [Notes, Search, Zoom],
+
+        // Lienzo logico: el contenido se escala a cualquier pantalla.
+        width: 1280,
+        height: 720,
+        margin: 0.06,
+        minScale: 0.2,
+        maxScale: 2.0,
+
+        hash: true, // la URL refleja la diapositiva (deep-linking)
+        autoSlide: 0, // sin auto-avance: el ponente controla el ritmo
+        loop: false,
+        slideNumber: false,
+        controls: true,
+        progress: true,
+        center: true,
+        transition: 'fade', // none | fade | slide | convex | concave | zoom
+        backgroundTransition: 'fade',
+        overview: true,
+      });
+
+      deck.initialize();
+    </script>
+  </body>
+</html>

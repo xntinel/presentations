@@ -1,0 +1,13 @@
+[  322815ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  324345ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  628821ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  628912ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  629011ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  629112ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  629213ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  629311ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  629413ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  629514ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  629619ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/decks/hackergpt-osint#/1:0
+[  629621ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:4322/@vite/client:0
+[  629623ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:4322/favicon.ico:0

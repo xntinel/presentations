@@ -1,0 +1,180 @@
+/* =========================================================================
+   Base estructural (compartida por TODOS los temas)
+   -------------------------------------------------------------------------
+   Aqui vive la maquetacion (layout) que NO cambia entre temas: la plantilla
+   de diapositiva imagen+titulo (.shot/.frame/header), tipografia, kicker,
+   cromos de reveal. Lee tokens semanticos (--ink, --accent, --font, ...) que
+   define el tema activo via .reveal[data-theme="..."] en su propio archivo.
+
+   Capas (@layer): el orden de cascada es explicito sin importar el orden de
+   importacion. `theme` gana a `base`; `deck` permite que un deck puntual
+   sobrescriba un token sin tocar el tema.
+
+   El CSS debe ser global (importado como .css): reveal.js inyecta/clona DOM
+   en runtime que no llevaria el hash de scope de Astro.
+   ========================================================================= */
+
+/* Fondo del lienzo: SIN @layer a proposito. reveal.css no usa capas, y las
+   reglas sin capa ganan SIEMPRE a las de cualquier @layer. Al estar themes.css
+   importado despues de reveal.css, esta regla gana por orden de fuente y pinta
+   el gradiente del tema sobre el blanco que reveal.css pone en .reveal-viewport.
+   El .reveal-viewport es el <body>, que hereda los tokens del <html data-theme>. */
+.reveal-viewport {
+  background:
+    radial-gradient(65% 55% at 10% 4%, rgba(var(--glow), 0.18), transparent 70%),
+    radial-gradient(60% 55% at 96% 98%, rgba(var(--glow), 0.1), transparent 70%),
+    linear-gradient(140deg, var(--bg-a) 0%, var(--bg-b) 100%);
+}
+
+@layer reveal, base, theme, deck;
+
+@layer base {
+  /* Mapea tokens semanticos del tema a las variables --r-* de reveal.js 6,
+     que reveal.css consume en runtime (no hace falta el pipeline de Sass). */
+  .reveal {
+    --r-main-font: var(--font);
+    --r-heading-font: var(--font-head);
+    --r-main-color: var(--ink);
+    --r-heading-color: var(--ink);
+    --r-link-color: var(--accent);
+    --r-background-color: transparent;
+
+    font-family: var(--font);
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .reveal .slides { text-align: left; }
+  .reveal .slides > section { padding: 0; height: 600px; }
+
+  /* ---------- Tipografia ---------- */
+  .reveal h1,
+  .reveal h2,
+  .reveal h3 {
+    font-family: var(--font-head);
+    color: var(--ink);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-transform: none;
+    text-shadow: none;
+  }
+  .reveal h1 { font-size: 2em; }
+  .reveal h2 { font-size: 1.5em; }
+
+  /* "kicker": eyebrow discreto */
+  .reveal .kicker {
+    font-size: 0.42em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink-dim);
+    margin: 0 0 0.55em;
+  }
+  .reveal .kicker::before {
+    content: '';
+    display: inline-block;
+    width: 0.7em;
+    height: 0.7em;
+    margin-right: 0.5em;
+    border-radius: 50%;
+    background: var(--accent);
+    vertical-align: baseline;
+  }
+
+  .reveal p { margin: 0; }
+
+  /* =======================================================================
+     Plantilla de diapositiva: imagen + titulo
+       <section><div class="shot"><div class="frame">
+         <img> <header> kicker + titulo </header>
+       </div></div></section>
+     ======================================================================= */
+  .reveal .shot {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  /* La firma: sin borde, aro de 1px + glow grande y suave. */
+  .reveal .shot .frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--shade);
+    border: 0;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 0 0 1px rgba(var(--glow), 0.5),
+      0 30px 70px -10px rgba(27, 38, 56, 0.28),
+      0 18px 55px 0 rgba(var(--glow), 0.3);
+  }
+
+  .reveal .shot .frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    display: block;
+  }
+
+  /* Titulo en chip de vidrio esmerilado (scrim WCAG G18 sobre la imagen). */
+  .reveal .shot header {
+    position: absolute;
+    left: 32px;
+    bottom: 32px;
+    right: auto;
+    max-width: 80%;
+    z-index: 2;
+    padding: 0.5em 0.78em 0.56em;
+    border-radius: 22px;
+    background: rgba(10, 18, 32, 0.66);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+      0 18px 45px -14px rgba(0, 0, 0, 0.55);
+  }
+  .reveal .shot header h1,
+  .reveal .shot header h2 {
+    color: #fff;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+  }
+  .reveal .shot header h2 { font-size: 1.7em; }
+  .reveal .cover .shot header h1 { font-size: 2.3em; }
+
+  /* ---------- Portada ---------- */
+  .reveal .cover h1 { font-size: 2.6em; max-width: 16ch; }
+
+  /* ---------- Cromos de reveal ---------- */
+  .reveal .progress { color: var(--accent); height: 3px; }
+  .reveal .controls { color: var(--accent); }
+  .reveal .slide-number {
+    background: transparent;
+    color: var(--ink-dim);
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  /* Imagenes sueltas (markdown ![]()) heredan la misma firma */
+  .reveal .slides img {
+    border: 0;
+    border-radius: var(--radius);
+    box-shadow:
+      0 0 0 1px rgba(var(--glow), 0.5),
+      0 30px 70px -10px rgba(27, 38, 56, 0.28),
+      0 18px 55px 0 rgba(var(--glow), 0.3);
+  }
+
+  /* Notas del ponente: ocultas en pantalla (las muestra el plugin Notes). */
+  .reveal aside.notes { display: none; }
+}
