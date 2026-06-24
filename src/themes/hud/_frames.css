@@ -1,0 +1,549 @@
+/* =========================================================================
+   HUD frame = HackerGPT composer (Image #14), recreated precisely:
+     - shape (clip-path): top edge LOWERED with a RAISED SHOULDER top-right
+       (rises diagonally -> higher flat run -> drops on a bevel), and bevels
+       on the two bottom corners. Right edge CLEAN.
+     - section::before -> a CONSTANT-WIDTH border LINE around the whole
+       silhouette (diagonals included) via mask-exclude.
+     - background -> accent dashes: top-left + bottom-right edge.
+   Unlayered (beats reveal.css). No bar/ticks (that was the blue panel). */
+.reveal[data-theme='hud'] .slides > section {
+  /* HackerGPT composer variables (verbatim, --pf- prefix). */
+  --pf-border-width: 1.5px;
+  --pf-inset-width: 8px;
+  --pf-offset-height: 20px;
+  --pf-offset-start: 86%;
+  --pf-offset-end: 98%;
+  --pf-offset-width: 2%;
+  --pf-bottom-offset-height: calc(100% - var(--pf-offset-height));
+  --pf-bottom-offset-start: 8%;
+  --pf-dash-length: 8px;
+  --pf-left-dash-offset: calc(var(--pf-dash-length) * 9);
+  --pf-right-dash-offset: calc(100% - var(--pf-dash-length) * 9);
+  box-sizing: border-box;
+  padding: 2.6em 2.6em;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+/* Content sits above the fill and border layers. */
+.reveal[data-theme='hud'] .slides > section > * {
+  position: relative;
+  z-index: 2;
+}
+/* FILL layer (inner shape) = ._promptFormContentWrapper (verbatim). */
+.reveal[data-theme='hud'] .slides > section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--bg-b);
+  clip-path: polygon(
+    0 var(--pf-offset-height),
+    calc(var(--pf-offset-start) + 1.5 * var(--pf-inset-width))
+      var(--pf-offset-height),
+    calc(
+        var(--pf-offset-start) + var(--pf-offset-width) + 1.5 *
+          var(--pf-inset-width)
+      )
+      0,
+    var(--pf-offset-end) 0%,
+    100% var(--pf-offset-height),
+    100% var(--pf-bottom-offset-height),
+    calc(
+        var(--pf-bottom-offset-start) + var(--pf-offset-width) - 1.5 *
+          var(--pf-inset-width)
+      )
+      var(--pf-bottom-offset-height),
+    calc(var(--pf-bottom-offset-start) - 1.5 * var(--pf-inset-width)) 100%,
+    var(--pf-offset-width) 100%,
+    0 var(--pf-bottom-offset-height)
+  );
+}
+/* Notch C applied to the slide's OUTER FRAME (not an inner card).
+   Placed as a positioned child over the frame's left edge; the spine blends
+   into the border (translateX) and only the bracket sticks out. */
+.reveal[data-theme='hud'] .slides > section > .frame-notch {
+  position: absolute;
+  left: 0;
+  top: var(--pf-offset-height);
+  width: 16px;
+  height: calc(100% - 2 * var(--pf-offset-height));
+  z-index: 2;
+  pointer-events: none;
+  background: #fff;
+  transform: translateX(-2px);
+  clip-path: polygon(
+    3px 0,
+    3px 14px,
+    7px 16px,
+    7px 54px,
+    3px 56px,
+    3px 100%,
+    2px 100%,
+    2px 55px,
+    6px 53px,
+    6px 17px,
+    2px 15px,
+    1px 16px,
+    0 16px,
+    4px 18px,
+    4px 52px,
+    0 50px,
+    0 47px,
+    4px 49px,
+    4px 47px,
+    0 45px,
+    0 42px,
+    4px 44px,
+    4px 42px,
+    0 40px,
+    0 37px,
+    4px 39px,
+    4px 37px,
+    0 35px,
+    0 17px,
+    2px 15px,
+    2px 0
+  );
+}
+/* Variant: notch on the frame's RIGHT edge. */
+.reveal[data-theme='hud'] .slides > section > .frame-notch-r {
+  position: absolute;
+  right: 0;
+  top: var(--pf-offset-height);
+  width: 16px;
+  height: calc(100% - 2 * var(--pf-offset-height));
+  z-index: 2;
+  pointer-events: none;
+  background: #fff;
+  transform: translateX(2px);
+  clip-path: polygon(
+    calc(100% - 3px) 0,
+    calc(100% - 3px) 14px,
+    calc(100% - 7px) 16px,
+    calc(100% - 7px) 54px,
+    calc(100% - 3px) 56px,
+    calc(100% - 3px) 100%,
+    calc(100% - 2px) 100%,
+    calc(100% - 2px) 55px,
+    calc(100% - 6px) 53px,
+    calc(100% - 6px) 17px,
+    calc(100% - 2px) 15px,
+    calc(100% - 1px) 16px,
+    100% 16px,
+    calc(100% - 4px) 18px,
+    calc(100% - 4px) 52px,
+    100% 50px,
+    100% 47px,
+    calc(100% - 4px) 49px,
+    calc(100% - 4px) 47px,
+    100% 45px,
+    100% 42px,
+    calc(100% - 4px) 44px,
+    calc(100% - 4px) 42px,
+    100% 40px,
+    100% 37px,
+    calc(100% - 4px) 39px,
+    calc(100% - 4px) 37px,
+    100% 35px,
+    100% 17px,
+    calc(100% - 2px) 15px,
+    calc(100% - 2px) 0
+  );
+}
+
+/* White BORDER layer (ring + dashes) = ._promptFormBorder (verbatim). */
+.reveal[data-theme='hud'] .slides > section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: #fff;
+  clip-path: polygon(
+    0 var(--pf-offset-height),
+    var(--pf-offset-start) var(--pf-offset-height),
+    calc(var(--pf-offset-start) + var(--pf-offset-width)) 0,
+    var(--pf-offset-end) 0%,
+    100% var(--pf-offset-height),
+    100% var(--pf-bottom-offset-height),
+    calc(var(--pf-bottom-offset-start) + var(--pf-offset-width))
+      var(--pf-bottom-offset-height),
+    var(--pf-bottom-offset-start) 100%,
+    var(--pf-offset-width) 100%,
+    0 var(--pf-bottom-offset-height),
+    0 var(--pf-offset-height),
+    var(--pf-border-width)
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    var(--pf-border-width)
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-offset-width) + var(--pf-border-width))
+      calc(100% - var(--pf-border-width)),
+    calc(var(--pf-bottom-offset-start) - var(--pf-border-width))
+      calc(100% - var(--pf-border-width)),
+    calc(
+        var(--pf-bottom-offset-start) + var(--pf-offset-width) -
+          var(--pf-border-width)
+      )
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-right-dash-offset))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-right-dash-offset)) var(--pf-bottom-offset-height),
+    calc(var(--pf-right-dash-offset) + var(--pf-dash-length))
+      var(--pf-bottom-offset-height),
+    calc(var(--pf-right-dash-offset) + var(--pf-dash-length))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-right-dash-offset) + 2 * var(--pf-dash-length))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-right-dash-offset) + 2 * var(--pf-dash-length))
+      var(--pf-bottom-offset-height),
+    calc(var(--pf-right-dash-offset) + 3 * var(--pf-dash-length))
+      var(--pf-bottom-offset-height),
+    calc(var(--pf-right-dash-offset) + 3 * var(--pf-dash-length))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-right-dash-offset) + 4 * var(--pf-dash-length))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-right-dash-offset) + 4 * var(--pf-dash-length))
+      var(--pf-bottom-offset-height),
+    calc(var(--pf-right-dash-offset) + 5 * var(--pf-dash-length))
+      var(--pf-bottom-offset-height),
+    calc(var(--pf-right-dash-offset) + 5 * var(--pf-dash-length))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-right-dash-offset) + 6 * var(--pf-dash-length))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(var(--pf-right-dash-offset) + 6 * var(--pf-dash-length))
+      var(--pf-bottom-offset-height),
+    calc(var(--pf-right-dash-offset) + 7 * var(--pf-dash-length))
+      var(--pf-bottom-offset-height),
+    calc(var(--pf-right-dash-offset) + 7 * var(--pf-dash-length))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(100% - var(--pf-border-width))
+      calc(var(--pf-bottom-offset-height) - var(--pf-border-width)),
+    calc(100% - var(--pf-border-width))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    calc(var(--pf-offset-end) - var(--pf-border-width)) var(--pf-border-width),
+    calc(
+        var(--pf-offset-start) + var(--pf-offset-width) + var(--pf-border-width)
+      )
+      var(--pf-border-width),
+    calc(var(--pf-offset-start) + var(--pf-border-width))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    var(--pf-left-dash-offset)
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    var(--pf-left-dash-offset) var(--pf-offset-height),
+    calc(var(--pf-left-dash-offset) - var(--pf-dash-length))
+      var(--pf-offset-height),
+    calc(var(--pf-left-dash-offset) - var(--pf-dash-length))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    calc(var(--pf-left-dash-offset) - 2 * var(--pf-dash-length))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    calc(var(--pf-left-dash-offset) - 2 * var(--pf-dash-length))
+      var(--pf-offset-height),
+    calc(var(--pf-left-dash-offset) - 3 * var(--pf-dash-length))
+      var(--pf-offset-height),
+    calc(var(--pf-left-dash-offset) - 3 * var(--pf-dash-length))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    calc(var(--pf-left-dash-offset) - 4 * var(--pf-dash-length))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    calc(var(--pf-left-dash-offset) - 4 * var(--pf-dash-length))
+      var(--pf-offset-height),
+    calc(var(--pf-left-dash-offset) - 5 * var(--pf-dash-length))
+      var(--pf-offset-height),
+    calc(var(--pf-left-dash-offset) - 5 * var(--pf-dash-length))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    calc(var(--pf-left-dash-offset) - 6 * var(--pf-dash-length))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    calc(var(--pf-left-dash-offset) - 6 * var(--pf-dash-length))
+      var(--pf-offset-height),
+    calc(var(--pf-left-dash-offset) - 7 * var(--pf-dash-length))
+      var(--pf-offset-height),
+    calc(var(--pf-left-dash-offset) - 7 * var(--pf-dash-length))
+      calc(var(--pf-offset-height) + var(--pf-border-width)),
+    var(--pf-border-width)
+      calc(var(--pf-offset-height) + var(--pf-border-width))
+  );
+}
+
+/* ===== Per-slide frames: ONLY override clip-path (reveal-safe) ===== */
+.reveal[data-theme='hud'] .slides > section.fr-cyber {
+  --bw: 1.5px;
+  --ch: 40px;
+  --dash: 14px;
+  --step-x: 60%;
+  --step-w: 48px;
+  --step-h: 18px;
+  --d0: 70%;
+}
+.reveal[data-theme='hud'] .slides > section.fr-cyber::before {
+  clip-path: polygon(
+    var(--ch) 0,
+    var(--step-x) 0,
+    calc(var(--step-x) + var(--step-w)) var(--step-h),
+    100% var(--step-h),
+    100% calc(100% - var(--ch)),
+    calc(100% - var(--ch)) 100%,
+    0 100%,
+    0 var(--ch)
+  );
+}
+.reveal[data-theme='hud'] .slides > section.fr-cyber::after {
+  clip-path: polygon(
+    var(--ch) 0,
+    var(--step-x) 0,
+    calc(var(--step-x) + var(--step-w)) var(--step-h),
+    100% var(--step-h),
+    100% calc(100% - var(--ch)),
+    calc(100% - var(--ch)) 100%,
+    0 100%,
+    0 var(--ch),
+    var(--ch) 0,
+    calc(var(--ch) + var(--bw)) var(--bw),
+    var(--bw) calc(var(--ch) + var(--bw)),
+    var(--bw) calc(100% - var(--bw)),
+    var(--d0) calc(100% - var(--bw)),
+    var(--d0) 100%,
+    calc(var(--d0) + var(--dash)) 100%,
+    calc(var(--d0) + var(--dash)) calc(100% - var(--bw)),
+    calc(var(--d0) + 2 * var(--dash)) calc(100% - var(--bw)),
+    calc(var(--d0) + 2 * var(--dash)) 100%,
+    calc(var(--d0) + 3 * var(--dash)) 100%,
+    calc(var(--d0) + 3 * var(--dash)) calc(100% - var(--bw)),
+    calc(var(--d0) + 4 * var(--dash)) calc(100% - var(--bw)),
+    calc(var(--d0) + 4 * var(--dash)) 100%,
+    calc(var(--d0) + 5 * var(--dash)) 100%,
+    calc(var(--d0) + 5 * var(--dash)) calc(100% - var(--bw)),
+    calc(100% - var(--ch) - var(--bw)) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(100% - var(--ch) - var(--bw)),
+    calc(100% - var(--bw)) calc(var(--step-h) + var(--bw)),
+    calc(var(--step-x) + var(--step-w)) calc(var(--step-h) + var(--bw)),
+    var(--step-x) var(--bw),
+    calc(var(--ch) + var(--bw)) var(--bw)
+  );
+}
+
+.reveal[data-theme='hud'] .slides > section.fr-deusex {
+  --bw: 1.5px;
+  --ch: 32px;
+  --dash: 14px;
+  --t0: 30%;
+}
+.reveal[data-theme='hud'] .slides > section.fr-deusex::before {
+  clip-path: polygon(
+    var(--ch) 0,
+    calc(100% - var(--ch)) 0,
+    100% var(--ch),
+    100% calc(100% - var(--ch)),
+    calc(100% - var(--ch)) 100%,
+    var(--ch) 100%,
+    0 calc(100% - var(--ch)),
+    0 var(--ch)
+  );
+}
+.reveal[data-theme='hud'] .slides > section.fr-deusex::after {
+  clip-path: polygon(
+    var(--ch) 0,
+    calc(100% - var(--ch)) 0,
+    100% var(--ch),
+    100% calc(100% - var(--ch)),
+    calc(100% - var(--ch)) 100%,
+    var(--ch) 100%,
+    0 calc(100% - var(--ch)),
+    0 var(--ch),
+    var(--ch) 0,
+    calc(var(--ch) + var(--bw)) var(--bw),
+    var(--bw) calc(var(--ch) + var(--bw)),
+    var(--bw) calc(100% - var(--ch) - var(--bw)),
+    calc(var(--ch) + var(--bw)) calc(100% - var(--bw)),
+    calc(100% - var(--ch) - var(--bw)) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(100% - var(--ch) - var(--bw)),
+    calc(100% - var(--bw)) calc(var(--ch) + var(--bw)),
+    calc(100% - var(--ch) - var(--bw)) var(--bw),
+    calc(var(--t0) + 5 * var(--dash)) var(--bw),
+    calc(var(--t0) + 5 * var(--dash)) 0,
+    calc(var(--t0) + 4 * var(--dash)) 0,
+    calc(var(--t0) + 4 * var(--dash)) var(--bw),
+    calc(var(--t0) + 3 * var(--dash)) var(--bw),
+    calc(var(--t0) + 3 * var(--dash)) 0,
+    calc(var(--t0) + 2 * var(--dash)) 0,
+    calc(var(--t0) + 2 * var(--dash)) var(--bw),
+    calc(var(--t0) + var(--dash)) var(--bw),
+    calc(var(--t0) + var(--dash)) 0,
+    var(--t0) 0,
+    var(--t0) var(--bw),
+    calc(var(--ch) + var(--bw)) var(--bw)
+  );
+}
+
+.reveal[data-theme='hud'] .slides > section.fr-elite {
+  --bw: 1.5px;
+  --ch: 44px;
+  --dash: 16px;
+  --b0: 34%;
+}
+.reveal[data-theme='hud'] .slides > section.fr-elite::before {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--ch)) 0,
+    100% var(--ch),
+    100% 100%,
+    var(--ch) 100%,
+    0 calc(100% - var(--ch))
+  );
+}
+.reveal[data-theme='hud'] .slides > section.fr-elite::after {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--ch)) 0,
+    100% var(--ch),
+    100% 100%,
+    var(--ch) 100%,
+    0 calc(100% - var(--ch)),
+    0 0,
+    var(--bw) var(--bw),
+    var(--bw) calc(100% - var(--ch) - var(--bw)),
+    calc(var(--ch) + var(--bw)) calc(100% - var(--bw)),
+    var(--b0) calc(100% - var(--bw)),
+    var(--b0) 100%,
+    calc(var(--b0) + var(--dash)) 100%,
+    calc(var(--b0) + var(--dash)) calc(100% - var(--bw)),
+    calc(var(--b0) + 2 * var(--dash)) calc(100% - var(--bw)),
+    calc(var(--b0) + 2 * var(--dash)) 100%,
+    calc(var(--b0) + 3 * var(--dash)) 100%,
+    calc(var(--b0) + 3 * var(--dash)) calc(100% - var(--bw)),
+    calc(var(--b0) + 4 * var(--dash)) calc(100% - var(--bw)),
+    calc(var(--b0) + 4 * var(--dash)) 100%,
+    calc(var(--b0) + 5 * var(--dash)) 100%,
+    calc(var(--b0) + 5 * var(--dash)) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(var(--ch) + var(--bw)),
+    calc(100% - var(--ch) - var(--bw)) var(--bw),
+    var(--bw) var(--bw)
+  );
+}
+
+.reveal[data-theme='hud'] .slides > section.fr-placa {
+  --bw: 1.5px;
+  --c: 44px;
+}
+.reveal[data-theme='hud'] .slides > section.fr-placa::before {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--c)) 0,
+    100% var(--c),
+    100% 100%,
+    var(--c) 100%,
+    0 calc(100% - var(--c))
+  );
+}
+.reveal[data-theme='hud'] .slides > section.fr-placa::after {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--c)) 0,
+    100% var(--c),
+    100% 100%,
+    var(--c) 100%,
+    0 calc(100% - var(--c)),
+    0 0,
+    var(--bw) var(--bw),
+    var(--bw) calc(100% - var(--c) - var(--bw)),
+    calc(var(--c) + var(--bw)) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(var(--c) + var(--bw)),
+    calc(100% - var(--c) - var(--bw)) var(--bw),
+    var(--bw) var(--bw)
+  );
+}
+
+.reveal[data-theme='hud'] .slides > section.fr-bracket {
+  --bw: 1.5px;
+  --ch: 48px;
+}
+.reveal[data-theme='hud'] .slides > section.fr-bracket::before {
+  clip-path: polygon(
+    var(--ch) 0,
+    100% 0,
+    100% calc(100% - var(--ch)),
+    calc(100% - var(--ch)) 100%,
+    0 100%,
+    0 var(--ch)
+  );
+}
+.reveal[data-theme='hud'] .slides > section.fr-bracket::after {
+  clip-path: polygon(
+    var(--ch) 0,
+    100% 0,
+    100% calc(100% - var(--ch)),
+    calc(100% - var(--ch)) 100%,
+    0 100%,
+    0 var(--ch),
+    var(--ch) 0,
+    calc(var(--ch) + var(--bw)) var(--bw),
+    var(--bw) calc(var(--ch) + var(--bw)),
+    var(--bw) calc(100% - var(--bw)),
+    calc(100% - var(--ch) - var(--bw)) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(100% - var(--ch) - var(--bw)),
+    calc(100% - var(--bw)) var(--bw),
+    calc(var(--ch) + var(--bw)) var(--bw)
+  );
+}
+
+.reveal[data-theme='hud'] .slides > section.fr-notch {
+  --bw: 1.5px;
+  --ch: 44px;
+}
+.reveal[data-theme='hud'] .slides > section.fr-notch::before {
+  background: #fff;
+  transform: translateX(-7px);
+  clip-path: polygon(
+    10px 0,
+    10px 49px,
+    24px 56px,
+    24px 189px,
+    10px 196px,
+    10px 100%,
+    7px 100%,
+    7px 192px,
+    21px 186px,
+    21px 60px,
+    7px 52px,
+    4px 56px,
+    0 56px,
+    14px 63px,
+    14px 182px,
+    0 175px,
+    0 164px,
+    14px 172px,
+    14px 164px,
+    0 158px,
+    0 147px,
+    14px 154px,
+    14px 147px,
+    0 140px,
+    0 130px,
+    14px 136px,
+    14px 130px,
+    0 122px,
+    0 60px,
+    7px 52px,
+    7px 0
+  );
+}
+.reveal[data-theme='hud'] .slides > section.fr-notch::after {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--ch)) 0,
+    100% var(--ch),
+    100% 100%,
+    0 100%,
+    0 0,
+    var(--bw) var(--bw),
+    var(--bw) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(100% - var(--bw)),
+    calc(100% - var(--bw)) calc(var(--ch) + var(--bw)),
+    calc(100% - var(--ch) - var(--bw)) var(--bw),
+    var(--bw) var(--bw)
+  );
+}

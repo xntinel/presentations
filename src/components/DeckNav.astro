@@ -1,0 +1,297 @@
+---
+// Floating deck control ("Liquid Glass"): a mac-style glass pill anchored
+// top-right. By default it shows only the fullscreen toggle; on hover/focus it
+// expands to the left and reveals the Home link. Lives outside .reveal so reveal
+// does not scale it; inherits the theme tokens from :root[data-theme].
+// The interactive behavior (fullscreen toggle, icon/state sync) lives in
+// src/scripts/deck-init.ts, which targets #fs-toggle by id.
+interface Props {
+  // Absolute href to the gallery/home (already base-prefixed, trailing slash).
+  homeHref: string;
+}
+
+const { homeHref } = Astro.props;
+---
+
+<nav class="deck-nav" id="deck-nav" aria-label="Controles de la presentacion">
+  <a
+    class="deck-nav__btn deck-nav__item"
+    href={homeHref}
+    aria-label="Inicio"
+    title="Inicio"
+    style="--i: 0"
+  >
+    <svg
+      class="nav-icon"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M3 9.6 12 3l9 6.6V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"
+      ></path>
+    </svg>
+  </a>
+  <button
+    id="fs-toggle"
+    class="deck-nav__btn deck-nav__trigger"
+    type="button"
+    aria-pressed="false"
+    aria-label="Pantalla completa"
+    title="Pantalla completa (F)"
+  >
+    <svg
+      class="nav-icon icon-enter"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 3H5a2 2 0 0 0-2 2v3"></path>
+      <path d="M16 3h3a2 2 0 0 1 2 2v3"></path>
+      <path d="M8 21H5a2 2 0 0 1-2-2v-3"></path>
+      <path d="M16 21h3a2 2 0 0 0 2-2v-3"></path>
+    </svg>
+    <svg
+      class="nav-icon icon-exit"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M8 3v3a2 2 0 0 1-2 2H3"></path>
+      <path d="M21 8h-3a2 2 0 0 1-2-2V3"></path>
+      <path d="M3 16h3a2 2 0 0 1 2 2v3"></path>
+      <path d="M16 21v-3a2 2 0 0 1 2-2h3"></path>
+    </svg>
+  </button>
+</nav>
+
+{
+  /* Liquid Glass SVG filter: low-frequency feTurbulence -> feDisplacementMap
+    refracts (bends) the background under the glass, not just blurs it. It must be in
+    the DOM (not display:none) so backdrop-filter: url(#liquid-glass) can use it. */
+}
+<svg
+  class="deck-nav__defs"
+  width="0"
+  height="0"
+  aria-hidden="true"
+  focusable="false"
+>
+  <filter
+    id="liquid-glass"
+    x="-40%"
+    y="-40%"
+    width="180%"
+    height="180%"
+    color-interpolation-filters="sRGB"
+  >
+    <feTurbulence
+      type="fractalNoise"
+      baseFrequency="0.005 0.011"
+      numOctaves="2"
+      seed="42"
+      result="noise"></feTurbulence>
+    <feGaussianBlur in="noise" stdDeviation="1.3" result="noiseSoft"
+    ></feGaussianBlur>
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="noiseSoft"
+      scale="34"
+      xChannelSelector="R"
+      yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</svg>
+
+<style>
+  /* "Liquid Glass" control: ONE piece of glass that groups the buttons TOGETHER.
+     The background REFRACTION comes from the SVG filter (#liquid-glass) chained in
+     the backdrop-filter (not just blur). No divider: each button is set off by its
+     hover circle. Fullscreen-only by default; on hover/focus it grows and
+     reveals Home. */
+  .deck-nav__defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .deck-nav {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bg-b, #e2e8f1) 32%, transparent);
+    /* Glass border: light hairline (edge specular). */
+    border: 1px solid color-mix(in srgb, #fff 22%, transparent);
+    /* Base (all browsers): frosted glass. */
+    -webkit-backdrop-filter: blur(12px) saturate(1.8);
+    backdrop-filter: blur(12px) saturate(1.8);
+    /* Enhancement (Chromium): liquid refraction via SVG filter + brightness. */
+    -webkit-backdrop-filter: url(#liquid-glass) blur(7px) saturate(1.8)
+      brightness(1.06);
+    backdrop-filter: url(#liquid-glass) blur(7px) saturate(1.8) brightness(1.06);
+    /* Depth/specular: shadow + top highlight + bottom edge + ring. */
+    box-shadow:
+      0 14px 38px -14px rgba(0, 0, 0, 0.6),
+      inset 0 1px 1px rgba(255, 255, 255, 0.6),
+      inset 0 -10px 14px -12px rgba(255, 255, 255, 0.22),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    opacity: 0.62;
+    transition: opacity 0.2s ease;
+  }
+  .deck-nav:hover,
+  .deck-nav:focus-within {
+    opacity: 1;
+  }
+  /* Specular reflection: bright top band + faint bottom edge. */
+  .deck-nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.28),
+        rgba(255, 255, 255, 0) 38%
+      ),
+      linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0) 28%
+      );
+  }
+
+  /* Transparent segments (let the glass show through). No own radius or border, and
+     NO divider: the container clips the ends to the pill shape. */
+  .deck-nav__btn {
+    position: relative;
+    z-index: 1;
+    flex: none;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    margin: 0;
+    padding: 0;
+    color: var(--ink, #1b2638);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: color 0.16s ease;
+  }
+  /* Hover/focus: paints a full CIRCLE centered behind the icon (macOS-style). */
+  .deck-nav__btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--ink, #1b2638) 15%, transparent);
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition:
+      opacity 0.16s ease,
+      transform 0.2s cubic-bezier(0.34, 1.5, 0.5, 1);
+  }
+  .deck-nav__btn:hover::after,
+  .deck-nav__btn:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .deck-nav__btn:active::after {
+    background: color-mix(in srgb, var(--accent, #2a5298) 28%, transparent);
+  }
+  .deck-nav__btn:hover,
+  .deck-nav__btn:focus-visible {
+    color: var(--accent, #2a5298);
+    outline: none;
+  }
+  .deck-nav__btn .nav-icon {
+    position: relative;
+    z-index: 1;
+    display: block;
+    pointer-events: none;
+  }
+
+  /* Home: a collapsible segment on the left (no divider). Width 0 and hidden
+     by default; on hover/focus it grows to the left. */
+  .deck-nav__item {
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    pointer-events: none;
+    transition:
+      width 0.3s cubic-bezier(0.34, 1.4, 0.5, 1),
+      opacity 0.22s ease,
+      visibility 0s linear 0.32s;
+  }
+  .deck-nav:hover .deck-nav__item,
+  .deck-nav:focus-within .deck-nav__item {
+    width: 46px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      width 0.3s cubic-bezier(0.34, 1.4, 0.5, 1),
+      opacity 0.22s ease,
+      visibility 0s linear 0s;
+  }
+
+  /* Fullscreen icon: "expand" by default, "shrink" while in fullscreen. */
+  #fs-toggle .icon-exit {
+    display: none;
+  }
+  #fs-toggle.is-fullscreen .icon-enter {
+    display: none;
+  }
+  #fs-toggle.is-fullscreen .icon-exit {
+    display: block;
+  }
+
+  .deck-nav[hidden] {
+    display: none;
+  }
+  /* Respects the reduced-motion preference. */
+  @media (prefers-reduced-motion: reduce) {
+    .deck-nav__item,
+    .deck-nav__btn::after {
+      transition-duration: 0.01ms !important;
+    }
+  }
+  /* Out of the PDF export (?print-pdf). */
+  @media print {
+    .deck-nav {
+      display: none !important;
+    }
+  }
+</style>

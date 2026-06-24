@@ -1,3 +1,5 @@
+import type { Root } from 'hast';
+
 /**
  * rehype-reveal-sections
  *
@@ -10,9 +12,29 @@
  * contains MDX nodes (mdxJsx*) or already has a <section>, the plugin does
  * nothing. The key discriminator: it only transforms plain Markdown.
  */
+
+/**
+ * A hast node, widened to also cover the MDX nodes (`mdxJsxFlowElement`,
+ * `mdxjsEsm`, ...) that Astro's MDX pipeline can leave in the tree before this
+ * rehype transform runs. Kept intentionally loose so the discriminating checks
+ * below stay simple.
+ */
+interface LooseNode {
+  type: string;
+  tagName?: string;
+  value?: string;
+  children?: LooseNode[];
+  properties?: Record<string, unknown>;
+}
+
+interface FrameResult {
+  className: string[] | null;
+  children: LooseNode[];
+}
+
 export default function rehypeRevealSections() {
-  return (tree) => {
-    const children = tree.children || [];
+  return (tree: Root): void => {
+    const children = (tree.children ?? []) as unknown as LooseNode[];
 
     // If this is an MDX deck (components) or already has a <section>, do not transform.
     const isAuthored = children.some(
@@ -24,13 +46,13 @@ export default function rehypeRevealSections() {
 
     // Only content nodes matter (ignore whitespace-only text).
     const content = children.filter(
-      (node) => !(node.type === 'text' && node.value.trim() === ''),
+      (node) => !(node.type === 'text' && (node.value ?? '').trim() === ''),
     );
     if (content.length === 0) return;
 
     // Split into groups at each <hr> (produced by `---`).
-    const groups = [];
-    let current = [];
+    const groups: LooseNode[][] = [];
+    let current: LooseNode[] = [];
     for (const node of content) {
       if (node.type === 'element' && node.tagName === 'hr') {
         groups.push(current);
@@ -41,7 +63,7 @@ export default function rehypeRevealSections() {
     }
     groups.push(current);
 
-    const sections = groups
+    const sections: LooseNode[] = groups
       .filter((group) => group.length > 0)
       .map((group) => {
         const frame = extractFrame(group);
@@ -53,7 +75,7 @@ export default function rehypeRevealSections() {
         };
       });
 
-    tree.children = sections;
+    tree.children = sections as unknown as Root['children'];
   };
 }
 
@@ -62,14 +84,15 @@ export default function rehypeRevealSections() {
  * classes to the <section> to override ONLY the frame clip-path (it leaves
  * position/padding alone, so reveal keeps its layout). Removes the paragraph.
  */
-function extractFrame(group) {
+function extractFrame(group: LooseNode[]): FrameResult {
   for (let i = 0; i < group.length; i++) {
     const node = group[i];
     if (node.type !== 'element' || node.tagName !== 'p') continue;
-    const first = node.children && node.children[0];
-    if (!first || first.type !== 'text' || !/^Frame:/.test(first.value)) continue;
-    const raw = node.children
-      .map((c) => (c.type === 'text' ? c.value : ''))
+    const first = node.children?.[0];
+    if (!first || first.type !== 'text' || !/^Frame:/.test(first.value ?? ''))
+      continue;
+    const raw = (node.children ?? [])
+      .map((c) => (c.type === 'text' ? (c.value ?? '') : ''))
       .join('')
       .replace(/^Frame:\s*/, '')
       .trim();
@@ -81,14 +104,15 @@ function extractFrame(group) {
 }
 
 /** Turns <p>Note: ...</p> into <aside class="notes">...</aside>. */
-function toNotesIfNeeded(node) {
+function toNotesIfNeeded(node: LooseNode): LooseNode {
   if (node.type !== 'element' || node.tagName !== 'p') return node;
-  const first = node.children && node.children[0];
-  if (!first || first.type !== 'text' || !/^Note:/.test(first.value)) return node;
+  const first = node.children?.[0];
+  if (!first || first.type !== 'text' || !/^Note:/.test(first.value ?? ''))
+    return node;
 
-  const stripped = node.children.map((child, i) =>
+  const stripped = (node.children ?? []).map((child, i) =>
     i === 0 && child.type === 'text'
-      ? { ...child, value: child.value.replace(/^Note:\s*/, '') }
+      ? { ...child, value: (child.value ?? '').replace(/^Note:\s*/, '') }
       : child,
   );
 

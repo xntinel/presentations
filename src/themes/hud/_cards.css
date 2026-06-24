@@ -1,0 +1,177 @@
+/* =========================================================================
+   CARD: HackerGPT-style chat message (._wrapper / ._messageInfo / ._avatar)
+   Usage: <div class="chat-msg"><div class="chat-avatar hgpt">H</div><div class="chat-info"><span class="chat-botname">HackerGPT</span><div class="chat-body">...</div></div></div>
+   ========================================================================= */
+.reveal[data-theme='hud'] .chat-msg {
+  column-gap: 16px;
+  display: flex;
+  font-family: 'Fira Mono', 'Menlo', ui-monospace, monospace;
+  font-size: 0.52em;
+  margin: 0.6em 0;
+  align-items: flex-start;
+}
+.reveal[data-theme='hud'] .chat-avatar {
+  --avatar-width: 36px;
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  height: var(--avatar-width);
+  justify-content: center;
+  object-fit: contain;
+  width: var(--avatar-width);
+  flex-shrink: 0;
+  background: #1a2e1a;
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: #4ade80;
+  font-weight: 700;
+  font-size: 14px;
+  clip-path: circle();
+}
+.reveal[data-theme='hud'] .chat-avatar.user {
+  background: #1e1e1e;
+  border: 2px solid #1e1e1e;
+  border-radius: 50%;
+  clip-path: circle();
+  color: #7d8590;
+}
+.reveal[data-theme='hud'] .chat-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  flex: 1;
+}
+.reveal[data-theme='hud'] .chat-botname,
+.reveal[data-theme='hud'] .chat-username {
+  max-width: 155px;
+  overflow: hidden;
+  padding-right: 0.7em;
+  position: relative;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 700;
+}
+.reveal[data-theme='hud'] .chat-botname {
+  color: #74fca1;
+}
+.reveal[data-theme='hud'] .chat-botname::after {
+  content: '>';
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.reveal[data-theme='hud'] .chat-username {
+  color: #97f0e6;
+}
+.reveal[data-theme='hud'] .chat-username::after {
+  content: '>';
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.reveal[data-theme='hud'] .chat-timestamp {
+  color: #363636;
+  font-weight: 700;
+  font-size: 10px;
+}
+.reveal[data-theme='hud'] .chat-body {
+  color: #d1d5db;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================================
+   CARD: HackerGPT-style key-value table (._kvTable / ._kvRow / ._kvHeader)
+   Usage in markdown: <div class="kv-card"><div class="kv-hd">...</div><div class="kv-row">...</div></div>
+   Border: same HUD clip-path as the slide frame, green accent.
+   ========================================================================= */
+.reveal[data-theme='hud'] .kv-card {
+  background: #060a0e;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Fira Mono', 'Menlo', ui-monospace, monospace;
+  font-size: 0.52em;
+  line-height: 1.5;
+  margin: 0.6em 0;
+  padding: 10px;
+}
+.reveal[data-theme='hud'] .kv-card .kv-hd {
+  color: #4b5563;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 8px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.1);
+}
+.reveal[data-theme='hud'] .kv-card .kv-row {
+  align-items: stretch;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.reveal[data-theme='hud'] .kv-card .kv-key {
+  color: #6b7280;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 5px 8px;
+  overflow-wrap: break-word;
+}
+.reveal[data-theme='hud'] .kv-card .kv-val {
+  color: #74fca1;
+  padding: 5px 8px;
+  overflow-wrap: break-word;
+}
+
+/* =========================================================================
+   CARD: editor pane with tabs (._editorPane / ._tabs / ._tab / ._rawEditor)
+   Usage: <div class="ep-card"><div class="ep-tabs"><span class="ep-tab ep-tab--active">Raw</span></div><pre class="ep-body">...</pre></div>
+   Border: same HUD clip-path, teal accent.
+   ========================================================================= */
+.reveal[data-theme='hud'] .ep-card {
+  background: #060a0e;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Fira Mono', 'Menlo', ui-monospace, monospace;
+  font-size: 0.52em;
+  margin: 0.6em 0;
+  padding: 10px;
+}
+.reveal[data-theme='hud'] .ep-card .ep-tabs {
+  align-items: center;
+  border-bottom: 1px solid rgba(151, 240, 230, 0.12);
+  display: flex;
+  flex-shrink: 0;
+  gap: 2px;
+  padding: 0 8px;
+}
+.reveal[data-theme='hud'] .ep-card .ep-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 12px;
+}
+.reveal[data-theme='hud'] .ep-card .ep-tab--active {
+  border-bottom-color: #74fca1;
+  color: #e4e8ef;
+  font-weight: 600;
+}
+.reveal[data-theme='hud'] .ep-card .ep-body {
+  color: #97f0e6;
+  font-family: 'Fira Mono', 'Menlo', ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 10px 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}

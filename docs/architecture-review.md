@@ -11,8 +11,14 @@ rewritten. No commits or pushes: changes stay in the working tree.
 | 1         | Repo structure, hygiene, and module boundaries     | done        | OK    |
 | 2         | Content pipeline and components                    | done        | OK    |
 | 3         | Theme system and CSS                               | done        | OK    |
-| 4         | Layout, routing, build, deploy, and DX             | pending     | -     |
-| 5         | Consolidation and closeout                         | pending     | -     |
+| 4         | Layout, routing, build, deploy, and DX             | done        | OK    |
+| 5         | Consolidation and closeout                         | halted      | -     |
+
+> Note (2026-06-24): The conservative review loop was HALTED after iteration 4 at the owner's
+> request. The remaining low-impact, render-neutral cleanup (incl. comment translation) was judged
+> not worth the token cost. Work pivoted to a radical, high-impact improvement effort (deep audit
+> + implementation). Iteration 5 (conservative consolidation) is intentionally not run; do not
+> resume this loop.
 
 ---
 
@@ -258,3 +264,73 @@ Render-neutrality proofs (two independent oracles):
 - After changes: `pnpm build` OK — CSS bundle 84414 bytes (-61%); `hud/theme.css` 1587 -> 358.
 - Render-neutral, proven by rule-level bundle diff (deletion) and byte-identical bundle
   (comments). HTML counts unchanged.
+
+---
+
+## Iteration 4 — Layout, routing, build, deploy, and DX
+
+Date: 2026-06-24.
+
+### Scope read (read-first, exhaustive)
+
+- `src/layouts/RevealLayout.astro` (340 lines: shell, embedded `<style>` + init `<script>`).
+- `src/pages/decks/[...slug].astro` (dynamic route) and `src/pages/index.astro` (gallery).
+- `astro.config.mjs`, `tsconfig.json`, `package.json`, `.github/workflows/deploy.yml`,
+  `AGENTS.md` (`CLAUDE.md` symlink).
+
+### Verified OK (no change needed)
+
+1. **`base`/`site` are coherent.** Git remote is `github.com/xntinel/presentations`;
+   `astro.config.mjs` sets `site: 'https://xntinel.github.io'` + `base: '/presentations'`, so the
+   site resolves to `https://xntinel.github.io/presentations`. Correct for GitHub Pages.
+2. **Favicon URL is clean.** Built HTML emits `href="/presentations/favicon.svg"` (single slash);
+   `import.meta.env.BASE_URL` has no trailing slash here, so the non-normalized favicon `href` in
+   `RevealLayout.astro:30` / `index.astro:32` is fine.
+3. **`AGENTS.md` dev instructions are CORRECT.** Initially suspected `astro dev --background`,
+   `astro dev stop`, `astro dev status`, `astro dev logs` were fabricated — but `astro dev --help`
+   confirms all four are real Astro 7 commands. NO change made (a "fix" would have introduced an
+   error). Logged as a caught false assumption.
+4. **`deploy.yml` is solid.** `pnpm install --frozen-lockfile`, pinned actions, Node 24, correct
+   Pages permissions (`pages: write`, `id-token: write`) and `concurrency` group.
+5. **`tsconfig.json`** extends `astro/tsconfigs/strict` and includes the generated types. Good.
+
+### Changes applied (safe and reversible; proven render-neutral)
+
+- **Translated Spanish comments to English** in `RevealLayout.astro`, `index.astro`,
+  `[...slug].astro`, and `astro.config.mjs` (51 replacements, each asserted to occur exactly
+  once). Proof: built HTML is byte-identical before/after across all 4 pages (comments are
+  stripped from the bundled CSS/JS and JSX `{/* */}` comments do not render).
+
+### Deferred changes / recommendations (prioritized backlog)
+
+Safe, ready to apply (only deferred to honor the conservative-loop choice):
+- **R1 — Dead `augmented-ui` import in the layout.** `RevealLayout.astro:7` imports
+  `augmented-ui/augmented-ui.min.css`, but NO deck or component uses `data-augmented-ui` (only
+  `index.astro` does, and it imports augmented-ui itself). Removing the layout import drops
+  augmented-ui CSS from every deck page with zero visual change. Verify the deck CSS bundle after.
+- **R2 — Unused font dependencies.** `@fontsource-variable/inter` and
+  `@fontsource-variable/space-grotesk` are referenced nowhere. `pnpm remove
+  @fontsource-variable/inter @fontsource-variable/space-grotesk` (regenerates the lockfile). Not
+  run autonomously to avoid lockfile/native-rebuild churn in conservative mode.
+
+Structural / needs new deps (greenlight required):
+- **R3 — Build tooling / DX scripts.** No `typecheck`/`lint`/`format`. Add `@astrojs/check` +
+  `typescript` with `"check": "astro check"`; optionally Prettier + ESLint with `format`/`lint`
+  scripts, and wire `pnpm check` into `deploy.yml` before `pnpm build`.
+- **R4 — `@components/*` path alias** in `tsconfig.json` to replace the `../../../components/...`
+  imports in the MDX decks (carried from iteration 2).
+- **R5 — Split `RevealLayout.astro`** (340 lines): extract the 166-line `<style>` to a
+  `deck-nav.css` and the 80-line fullscreen/init `<script>` to a `deck-init.ts` module the layout
+  imports. Render-neutral if done carefully; it only reorganizes.
+- **R6 — Per-theme font loading (perf).** The layout loads all three variable fonts (Manrope,
+  Quicksand, JetBrains Mono) on every deck regardless of `theme`; a `steel-light` deck ships
+  JetBrains Mono unused, and a `hud` deck ships Manrope/Quicksand unused. Load fonts conditionally
+  per theme.
+- **R7 — Minor: Node version drift.** `package.json` `engines.node: ">=22.12.0"` vs CI Node 24.
+  Harmless (24 satisfies the range); pin if you want determinism.
+
+### Build status
+
+- Before changes: `pnpm build` OK.
+- After changes: `pnpm build` OK.
+- Render byte-identical (all 4 built HTML pages unchanged).

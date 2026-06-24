@@ -2,15 +2,17 @@
    Tokens only. The layout lives in ../_base.css. */
 @layer theme {
   :root[data-theme='steel-light'] {
-    --bg-a: #f5f7fa;   /* very light slate */
-    --bg-b: #e2e8f1;   /* light slate */
-    --shade: #dde4ee;  /* fill (image placeholder) */
-    --ink: #1b2638;    /* slate navy (text) */
-    --ink-dim: #5d6b82;/* blue-gray */
+    --bg-a: #f5f7fa; /* very light slate */
+    --bg-b: #e2e8f1; /* light slate */
+    --shade: #dde4ee; /* fill (image placeholder) */
+    --ink: #1b2638; /* slate navy (text) */
+    --ink-dim: #5d6b82; /* blue-gray */
     --accent: #2a5298; /* steel blue */
     --glow: 90, 120, 165; /* cool steel blue for shadows/halo */
     --radius: 44px;
-    --font: 'Manrope Variable', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
-    --font-head: 'Quicksand Variable', 'Manrope Variable', system-ui, sans-serif;
+    --font:
+      'Manrope Variable', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+    --font-head:
+      'Quicksand Variable', 'Manrope Variable', system-ui, sans-serif;
   }
 }

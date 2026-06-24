@@ -21,8 +21,16 @@
    The .reveal-viewport is the <body>, which inherits the tokens from <html data-theme>. */
 .reveal-viewport {
   background:
-    radial-gradient(65% 55% at 10% 4%, rgba(var(--glow), 0.18), transparent 70%),
-    radial-gradient(60% 55% at 96% 98%, rgba(var(--glow), 0.1), transparent 70%),
+    radial-gradient(
+      65% 55% at 10% 4%,
+      rgba(var(--glow), 0.18),
+      transparent 70%
+    ),
+    radial-gradient(
+      60% 55% at 96% 98%,
+      rgba(var(--glow), 0.1),
+      transparent 70%
+    ),
     linear-gradient(140deg, var(--bg-a) 0%, var(--bg-b) 100%);
 }
 
@@ -44,8 +52,13 @@
     font-weight: 500;
   }
 
-  .reveal .slides { text-align: left; }
-  .reveal .slides > section { padding: 0; height: 600px; }
+  .reveal .slides {
+    text-align: left;
+  }
+  .reveal .slides > section {
+    padding: 0;
+    height: 600px;
+  }
 
   /* ---------- Typography ---------- */
   .reveal h1,
@@ -60,8 +73,12 @@
     text-transform: none;
     text-shadow: none;
   }
-  .reveal h1 { font-size: 2em; }
-  .reveal h2 { font-size: 1.5em; }
+  .reveal h1 {
+    font-size: 2em;
+  }
+  .reveal h2 {
+    font-size: 1.5em;
+  }
 
   /* "kicker": subtle eyebrow */
   .reveal .kicker {
@@ -82,7 +99,9 @@
     vertical-align: baseline;
   }
 
-  .reveal p { margin: 0; }
+  .reveal p {
+    margin: 0;
+  }
 
   /* =======================================================================
      Slide template: image + title
@@ -148,15 +167,27 @@
     color: #fff;
     text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
   }
-  .reveal .shot header h2 { font-size: 1.7em; }
-  .reveal .cover .shot header h1 { font-size: 2.3em; }
+  .reveal .shot header h2 {
+    font-size: 1.7em;
+  }
+  .reveal .cover .shot header h1 {
+    font-size: 2.3em;
+  }
 
   /* ---------- Cover ---------- */
-  .reveal .cover h1 { font-size: 2.6em; max-width: 16ch; }
+  .reveal .cover h1 {
+    font-size: 2.6em;
+    max-width: 16ch;
+  }
 
   /* ---------- reveal chrome ---------- */
-  .reveal .progress { color: var(--accent); height: 3px; }
-  .reveal .controls { color: var(--accent); }
+  .reveal .progress {
+    color: var(--accent);
+    height: 3px;
+  }
+  .reveal .controls {
+    color: var(--accent);
+  }
   .reveal .slide-number {
     background: transparent;
     color: var(--ink-dim);
@@ -176,5 +207,7 @@
   }
 
   /* Speaker notes: hidden on screen (shown by the Notes plugin). */
-  .reveal aside.notes { display: none; }
+  .reveal aside.notes {
+    display: none;
+  }
 }

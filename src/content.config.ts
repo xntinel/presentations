@@ -1,6 +1,7 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro:schema';
 import { glob } from 'astro/loaders';
-import { themeNames } from './themes/registry';
+import { themeNames } from '@themes/registry';
 
 // One presentation = one folder src/content/decks/<slug>/ with index.md|mdx
 // and co-located images in images/. Adding a deck = adding a folder.

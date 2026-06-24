@@ -26,8 +26,8 @@ const showRight = notch === 'r' || notch === 'both';
 ---
 
 <section class={frame}>
-  {showLeft && <div class="frame-notch"></div>}
-  {showRight && <div class="frame-notch-r"></div>}
+  {showLeft && <div class="frame-notch" />}
+  {showRight && <div class="frame-notch-r" />}
   <slot />
   {note && <aside class="notes" set:html={note} />}
 </section>

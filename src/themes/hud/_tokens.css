@@ -1,0 +1,20 @@
+/* "HUD" theme: dark terminal, monospace, green accent, HUD frames.
+   Inspired by a HackerGPT-style console. The token block goes in @layer; the
+   identity extras (bullets, prefixes, frame) go OUTSIDE @layer to beat
+   reveal.css (which uses no layers), like the background in _base.css. */
+@layer theme {
+  :root[data-theme='hud'] {
+    --bg-a: #07090c; /* near black */
+    --bg-b: #0b0e13; /* bluish black */
+    --shade: #11161d; /* frame fill */
+    --ink: #e6edf3; /* light text */
+    --ink-dim: #7d8590; /* terminal gray */
+    --accent: #3fb950; /* terminal green */
+    --glow: 63, 185, 80; /* green halo */
+    --radius: 8px;
+    --font:
+      'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+    --font-head:
+      'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+}

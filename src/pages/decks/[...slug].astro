@@ -1,19 +1,19 @@
 ---
-// Ruta dinamica unica que renderiza CUALQUIER deck de la coleccion.
-// reveal.js es un singleton global -> un deck por ruta/pagina.
+// Single dynamic route that renders ANY deck in the collection.
+// reveal.js is a global singleton -> one deck per route/page.
 import { getCollection, render } from 'astro:content';
-import RevealLayout from '../../layouts/RevealLayout.astro';
+import RevealLayout from '@layouts/RevealLayout.astro';
 
 export async function getStaticPaths() {
-  // Consulta la coleccion UNA vez aqui (en cada pagina seria un footgun de
-  // rendimiento: Astro reescanea las imagenes de todas las entradas).
+  // Query the collection ONCE here (doing it per page would be a performance
+  // footgun: Astro re-scans the images of every entry).
   const decks = await getCollection('decks', (d) => !d.data.draft);
   return decks.map((deck) => ({ params: { slug: deck.id }, props: { deck } }));
 }
 
 const { deck } = Astro.props;
-// Pre-renderiza el cuerpo MDX/MD a HTML en build (no usamos el plugin Markdown
-// de reveal en cliente): salida estatica y compatible con islas de Astro.
+// Pre-render the MDX/MD body to HTML at build time (we do not use reveal's
+// client-side Markdown plugin): static output, compatible with Astro islands.
 const { Content } = await render(deck);
 ---
 
